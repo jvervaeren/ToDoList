@@ -13,7 +13,7 @@ class IndexController extends AbstractController
 	public function index()
 	{
 		return $this->render('index/tasks.html.twig', 
-			['tasks' => ['Get kids from school']]
+			[]
 		);
 	}
 }
