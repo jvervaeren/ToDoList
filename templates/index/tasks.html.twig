@@ -1,0 +1,18 @@
+{% extends 'index/index.html.twig' %}
+
+{% block tasks %}
+<h3>Things you need to do</h3>
+<div class="row">
+	{% for task in tasks %}
+        <div class="col-3">
+        	<div class="card">
+        		<p>{{ task }}</p>
+        		<div class="clearfix">
+        			<a class="action cta" href="javascript:void(0)">Done</a>
+        			<a class="action" href="javascript:void(0)">Cancel</a>
+        		</div>
+        	</div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
