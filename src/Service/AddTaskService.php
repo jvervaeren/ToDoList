@@ -16,7 +16,7 @@ class AddTaskService
 	}
 
 	/**
-	 * Add a task to the database alongside 
+	 * Add a task to the database 
 	 * @param string $description
 	 * @return []
 	 */
@@ -29,18 +29,18 @@ class AddTaskService
 			$this->entityManager->persist($task);
 			$this->entityManager->flush();
 		} catch (\Exception $ex) {
-			return ['succcess' => false];
+			return ['success' => false];
 		}
 
 		$taskStatus = new TaskStatus();
 		$taskStatus->setTaskId($task->getId());
+		$taskStatus->setCompleted(0);
+		$taskStatus->setCanceled(0);
 
 		try {
 			$this->entityManager->persist($taskStatus);
 			$this->entityManager->flush();
 		} catch (\Exception $e) {
-			$this->entityManager->remove($task);
-			$this->entityManager->flush();
 			return ['success' => false];
 		}
 

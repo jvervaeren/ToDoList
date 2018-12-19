@@ -1,15 +1,54 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<form id="addTaskForm" action="#" method="post">
+<div class="container">
 	<div class="row">
+		<div class="col-12">
+			<h1>Task manager</h1>
+		</div>	
+	</div>
+	<div class="row" id="addTaskForm">
 		<div class="col-4">
-			<input type="text" placeholder="What do you need to do?" />
+			<input name="task_description" type="text" placeholder="What do you need to do?" />
+			<span class="error"></span>
 		</div>
 		<div class="col-2">
-			<button type="submit">Add</button>
+			<button type="button">Add</button>
 		</div>
 	</div>
-</form>
-{% block tasks %}{% endblock %}
+	{% block tasks %}{% endblock %}
+</div>
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript">
+	var addTaskButton = document.querySelector('#addTaskForm button');
+	addTaskButton.addEventListener('click', function(event) {
+		event.preventDefault();
+
+		var addData = new FormData();
+		addData.append('description', document.querySelector('#addTaskForm input[name="task_description"]').value);
+
+		var addRequest = startNewHttpRequest('POST', '{{ url('create_task') }}');
+		handleHttpRequest(
+			addRequest,
+			addData,
+			function(json) {
+				var response = JSON.parse(json);
+				if (!response.success) {
+					alert('Creating task failed: ' + response.reason);
+				} else {
+					var newTask = document.createElement('div');
+					newTask.className = "col-3 task";
+					newTask.dataset.id = response.id;
+					newTask.innerHTML = '<div class="card"><p>' + document.querySelector('#addTaskForm input[name="task_description"]').value + '</p><div class="clearfix"><a class="action cta" href="javascript:void(0)" onClick="updateTaskStatus(this)" data-status="complete">Done</a><a class="action" href="javascript:void(0)" onClick="updateTaskStatus(this)" data-status="cancel">Cancel</a></div></div>';
+
+					document.querySelector('#taskList').appendChild(newTask);
+
+					document.querySelector('#addTaskForm input[name="task_description"]').value = '';
+				}
+			}
+		);
+	});
+</script>
+{% block taskjavascript %}{% endblock %}
 {% endblock %}

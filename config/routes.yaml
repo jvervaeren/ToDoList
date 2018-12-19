@@ -1,3 +1,9 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+create_task:
+    path: /api/task/create
+    controller: App\Controller\TaskController::create
+update_task:
+    path: /api/task/update
+    controller: App\Controller\TaskController::update
+get_task:
+    path: /api/task/get
+    controller: App\Controller\TaskController::get

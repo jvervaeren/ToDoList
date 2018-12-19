@@ -20,7 +20,7 @@ class CancelTaskService
 	 */
 	public function cancelTask($id)
 	{
-		$task = $this->entityManager->getRepository(TaskStatus::class)->find($id);
+		$task = $this->entityManager->getRepository(TaskStatus::class)->findByTaskId($id);
 
 		if (!$task) {
 			return false;

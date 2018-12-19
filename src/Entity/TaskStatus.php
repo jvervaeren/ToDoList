@@ -1,33 +1,32 @@
 <?php
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping
+use Doctrine\ORM\Mapping;
 
 /**
- * @Entity
- * @Table(name="task_status")
+ * @Mapping\Entity(repositoryClass="App\Repository\TaskStatusRepository")
  */
 class TaskStatus
 {
 	/**
-	 * @Id
-	 * @GeneratedValue
-	 * @ORM\Column(type="integer")
+	 * @Mapping\Id
+	 * @Mapping\GeneratedValue
+	 * @Mapping\Column(type="integer")
 	 */
 	private $id;
 
 	/**
-	 * @ORM\Column(type="integer")
+	 * @Mapping\Column(type="integer")
 	 */
 	private $task_id;
 
 	/**
-	 * @ORM\Column(type="integer")
+	 * @Mapping\Column(type="integer")
 	 */
 	private $completed;
 
 	/**
-	 * @ORM\Column(type="integer")
+	 * @Mapping\Column(type="integer")
 	 */
 	private $canceled;
 

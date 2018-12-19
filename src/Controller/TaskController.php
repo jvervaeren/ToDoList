@@ -25,7 +25,7 @@ class TaskController
 		}
 
 		$response = $addTaskService->addTask($description);
-		if ($response['success']) {
+		if (!$response['success']) {
 			return new JsonResponse(array('success' => false, 'reason' => 'Failed to create task'));
 		}
 
@@ -66,7 +66,7 @@ class TaskController
 		return new JsonResponse(array('success' => true));
 	}
 
-	/** 
+	/**
 	 * @Route("/api/task/get")
 	 */
 	public function get(Request $request, EntityManagerInterface $entityManager)

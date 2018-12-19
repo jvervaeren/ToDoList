@@ -1,23 +1,22 @@
 <?php
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping
+use Doctrine\ORM\Mapping;
 
 /**
- * @Entity
- * @Table(name="task")
+ * @Mapping\Entity(repositoryClass="App\Repository\TaskRepository")
  */
 class Task
 {
 	/**
-	 * @Id
-	 * @GeneratedValue
-	 * @ORM\Column(type="integer")
+	 * @Mapping\Id
+	 * @Mapping\GeneratedValue
+	 * @Mapping\Column(type="integer")
 	 */
 	private $id;
 
 	/**
-	 * @ORM\Column(type="string", length=255)
+	 * @Mapping\Column(type="string", length=255)
 	 */
 	private $description;
 
