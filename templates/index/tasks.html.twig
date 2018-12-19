@@ -1,18 +1,47 @@
 {% extends 'index/index.html.twig' %}
 
 {% block tasks %}
-<h3>Things you need to do</h3>
 <div class="row">
-	{% for task in tasks %}
-        <div class="col-3">
-        	<div class="card">
-        		<p>{{ task }}</p>
-        		<div class="clearfix">
-        			<a class="action cta" href="javascript:void(0)">Done</a>
-        			<a class="action" href="javascript:void(0)">Cancel</a>
-        		</div>
-        	</div>
+    <div class="col-12">
+        <h3>Things you need to do</h3>
+    </div>
+    <div class="col-12">
+        <div class="row" id="taskList">
+    	{% for task in tasks %}
+            <div class="col-3 task" data-id="{{ task.id }}">
+            	<div class="card">
+            		<p>{{ task.description }}</p>
+            		<div class="clearfix">
+            			<a class="action cta" onclick="updateTaskStatus(this)" href="javascript:void(0)" data-status="complete">Done</a>
+            			<a class="action" onclick="updateTaskStatus(this)" href="javascript:void(0)" data-status="cancel">Cancel</a>
+            		</div>
+            	</div>
+            </div>
+        {% endfor %}
         </div>
-    {% endfor %}
+    </div>
 </div>
+{% endblock %}
+{% block taskjavascript %}
+<script type="text/javascript">
+    function updateTaskStatus(el) {
+        var updateData = new FormData();
+        updateData.append('task_id', el.closest('.task').dataset.id);
+        updateData.append('update_status', el.dataset.status);
+
+        var updateRequest = startNewHttpRequest('POST', '{{ url('update_task') }}')
+        handleHttpRequest(
+            updateRequest,
+            updateData,
+            function(json) {
+                var response = JSON.parse(json);
+                if (!response.success) {
+                    alert(response.reason);
+                } else {
+                    document.getElementById('taskList').removeChild(el.closest('.task'));
+                }
+            }
+        );
+    }
+</script>
 {% endblock %}
